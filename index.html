@@ -1,107 +1,506 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
-    <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard con Bootsstrap</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
-<style>
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: aquamarine;
-    margin: 0;
-    padding: 20px;
-    display: flex; /*organiza el contenido en formato de caja flexible(horizontal)*/
-}
-*{
-    box-sizing: border-box;/* Borde y padding no aumente su tamaño*/
-}
-/*Estilos para menú lateral*/
-.sidebar{
-    width: 220px; /*Ancho del menú*/
-    background-color: brown;
-    color: white;
-    height: 100vh; /*altura completa de la ventana*/
-    padding: 20px;
-    position: fixed; /*mantiene fijo en su lugar al hacer scrol*/
-}
-.sidebar h2{
-    margin-top: 0; /*elimin el margen superior*/
-    text-align: center;
-}
-.sidebar ul{
-    list-style-type: none; /*elimine los puntos de la lista*/
-    padding: 0;
-}
-.sidebar li{
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,0.2);/*linea transparente divisor*/
-}
-.sidebar ul li:hover{
-    background-color: aqua;
-    cursor: pointer; /*cambia el cursor en una mano*/
-}
-  /*Contenedro principal del contenido derecho*/
-  .main-content{
-    margin-left: 220px; /*Desplazar el contenido a la derecha*/
-    padding: 20px;
-    width: 100%; /*ocupa el espacio de ancho disponible*/
-  }
-h1{
-    text-align: center;
-color: black;
-}
-.dashboard{
-display: grid; /*permite organizar los cards*/
-grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); /*ajustar columnas com min,250px*/
-gap: 20px; /*espacio entre tarjetas*/
-margin-top: 30px;/*espacio superior al titulo*/ 
-}
-.card{
-    background-color: aliceblue; /*fondo blanco*/
-    border-radius: 10px; /*bordes redondeado*/
-    padding: 20px;
-    box-shadow: 0 4px 8px rgb(73,38,38); /*efecto de sombra*/
-    text-align: center;
-}
-.card h2{
-    margin: 10px 0; /*margen de arriba y de abajo*/
-    color: aqua;
-}
-.card p{
-font-size: 18px;
-color: chocolate;    
-}
-</style>
-    </head>
-    <body>
-        <div class="sidebar">
-            <h2>Menú Opciones</h2>
-<ul>
-    <li>Inicio</li>
-    <li>Resumen</li>
-    <li>Préstamos</li>
-    <li>Salir</li>
-</ul>
-        </div>
-        <!--Contenido principal-->
-        <div class="main-content">
-        <h1>Dashboard Financiero - Préstamos Bancarios</h1>
-        <div class="dashboard"> <!--Contenedor general dashboard-->
-            <div class="card"> <!--Subtitulo de la tarjeta-->
-                <h2>Cuota Inicial</h2>
-                <p>S/. 32,550</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financiero - Préstamos Bancarios</title>
+    <style>
+        :root {
+            --color-fondo-principal: #B0F2B6; 
+            --color-barra-lateral: #B81130; 
+            --color-texto-claro: #FFFFFF;
+            --color-texto-oscuro: #333333;
+            --color-resaltado-azul: #007bff;
+            --color-cajas-fondo: #FFFFFF; 
+            --color-borde-gris: #cccccc;
+            --color-gris-claro-placeholder: #e0e0e0;
+            --color-gris-oscuro-placeholder: #b0b0b0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-fondo-principal);
+            display: flex; 
+            min-height: 100vh; 
+        }
+        .container {
+            display: flex;
+            width: 100%; 
+            max-width: none; 
+            height: 100vh; 
+            background-color: var(--color-fondo-principal);
+            border-radius: 0; 
+            overflow: hidden;
+            box-shadow: none; 
+        }
+
+        .sidebar {
+            width: 300px; 
+            background-color: brown;
+            padding: 25px 0; 
+            box-sizing: border-box; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            border-right: 2px solid rgba(0, 0, 0, 0.1);
+            position: fixed; 
+            height: 100vh; 
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .menu-header {
+            font-weight: bold;
+            font-size: 1.6em;
+            margin-bottom: 50px;
+            color: var(--color-texto-claro);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            text-align: center; 
+            box-sizing: border-box;
+        }
+
+        .menu-options ul {
+            list-style: none; 
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .menu-options li {
+            width: 200%; 
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .menu-options a {
+            display: block;
+            padding: 20px 0; 
+            text-decoration: none;
+            color: var(--color-texto-claro);
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-align: center; 
+        }
+        .menu-options a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .content {
+            flex-grow: 1; 
+            padding: 35px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: flex-start; 
+            background-color: var(--color-fondo-principal);
+            margin-left: 300px; 
+            width: calc(100% - 300px); 
+        }
+
+        .page {
+            width: 100%;
+            display: none; 
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--color-fondo-principal);
+            overflow-y: auto; 
+        }
+
+        .page.active {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            flex-grow: 1; 
+        }
+
+        .page-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center; 
+            width: 100%;
+            color: var(--color-resaltado-azul);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            gap: 45px;
+        }
+
+        .info-cards-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-bottom: 35px;
+            gap: 30px;
+        }
+
+        .info-card {
+            background-color: var(--color-cajas-fondo);
+            padding: 30px 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: var(--color-texto-oscuro);
+            flex: 1;
+            min-width: 220px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-label {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            color: #ADD8E6;
+        }
+
+        .info-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--color-texto-oscuro);
+        }
+        .summary-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            gap: 35px;
+        }
+
+        .large-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-gris-claro-placeholder);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-texto-claro);
+            font-size: 1.8em;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .large-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block; 
+            margin: 0 auto; 
+        }
+        .history-text-area {
+            width: 100%;
+            background-color: var(--color-cajas-fondo);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            line-height: 1.7;
+            font-size: 1.15em;
+            color: var(--color-texto-oscuro);
+            text-align: justify; 
+        }
+        .form-section {
+            width: 90%;
+            max-width: 800px;
+            background-color: var(--color-cajas-fondo);
+            padding: 50px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            color: var(--color-texto-oscuro);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 15px;
+            border: 1px solid var(--color-borde-gris);
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            color: var(--color-texto-oscuro);
+            font-size: 1.05em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+
+        .send-button {
+            background-color: var(--color-resaltado-azul);
+            color: var(--color-texto-claro);
+            padding: 18px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 25px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .members-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 25px;
+        }
+
+        .member-card {
+            background-color: var(--color-cajas-fondo);
+            padding: 30px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 18px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-image-placeholder {
+            width: 200px;
+            height: 200px;
+            background-color: var(--color-gris-oscuro-placeholder);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .member-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .member-text {
+            color: var(--color-texto-oscuro);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%; 
+                height: auto; 
+                position: relative; 
+                padding-bottom: 0;
+            }
+
+            .content {
+                margin-left: 0; 
+                width: 100%; 
+                padding-top: 20px; 
+            }
+
+            .container {
+                flex-direction: column; 
+            }
+
+            .members-section {
+                grid-template-columns: 1fr; 
+            }
+
+            .info-cards-container {
+                flex-direction: column; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="menu-header">Menú Opciones</div>
+            <nav class="menu-options">
+                <ul>
+                    <li><a href="#" onclick="showPage('inicio')">Inicio</a></li>
+                    <li><a href="#" onclick="showPage('resumen')">Resumen</a></li>
+                    <li><a href="#" onclick="showPage('solicitud')">Solicitud</a></li>
+                    <li><a href="#" onclick="showPage('integrantes')">Integrantes</a></li>
+                    <li><a href="#" onclick="alert('Funcionalidad de Salir no implementada.')">Salir</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <div id="inicio" class="page active">
+                <header class="page-title">Nuestra Historia</header>
+                <section class="summary-section">
+                    <div class="large-image-placeholder">
+                        <img src="https://chapacash.com.pe/wp-content/uploads/2023/03/principales-diferencias-prestamo-credito.jpg" alt="Imagen de la historia de la marca">
+                    </div>
+                    <div class="history-text-area">
+                        <p>
+                            En el corazón de nuestra misión, se encuentra el compromiso de brindar soluciones financieras accesibles y confiables a la comunidad. Desde nuestros inicios, hemos crecido de ser una pequeña iniciativa a convertirnos en un referente en el sector de préstamos bancarios. Nuestra trayectoria está marcada por la innovación, la transparencia y una profunda dedicación a nuestros clientes.
+                        </p>
+                        <p>
+                            Creemos firmemente que el acceso al capital es una herramienta fundamental para el desarrollo personal y empresarial. Por ello, nos esforzamos cada día en simplificar los procesos, ofrecer tasas competitivas y asegurar que cada interacción sea clara y beneficiosa para quienes confían en nosotros. La historia de nuestra marca es la historia de miles de sueños hechos realidad, de negocios que florecieron y de familias que alcanzaron sus metas gracias a nuestro apoyo.
+                        </p>
+                        <p>
+                            Mirando hacia el futuro, seguimos comprometidos con la excelencia y la expansión de nuestros servicios, siempre adaptándonos a las necesidades cambiantes del mercado y manteniendo la calidez en el trato humano que nos caracteriza. Nuestra historia es una promesa: la promesa de un aliado financiero en el que siempre podrás confiar.
+                        </p>
+                    </div>
+                </section>
             </div>
-<div class="card">
-<h2>Monto Financiero</h2>
-<p>S/. 122.450</p>
-</div>
-<div class="card">
-    <h2>Cuota mensual</h2>
-    <p>S/. 3,302.47</p>
-</div>
-        </div>
+
+            <div id="resumen" class="page">
+                <header class="page-title">Dashboard Financiero - Préstamos Bancarios</header>
+                <section class="dashboard-section">
+                    <div class="info-cards-container">
+                        <div class="info-card">
+                            <div class="info-label">Cuota Inicial</div>
+                            <div class="info-value">S/. 32,550</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Monto Financiado</div>
+                            <div class="info-value">S/. 122,450</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Cuota Mensual</div>
+                            <div class="info-value">S/. 3,302.47</div>
+                        </div>
+                    </div>
+                    <div class="large-image-placeholder">
+                        <img src="https://www.slideteam.net/wp/wp-content/uploads/2023/07/Panel-de-analisis-de-rendimiento-de-prestamos-comerciales-3.png" alt="Imagen adicional del dashboard">
+                    </div>
+                </section>
+            </div>
+
+            <div id="solicitud" class="page">
+                <header class="page-title">Formulario de Solicitud</header>
+                <section class="form-section">
+                    <form>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido:</label>
+                            <input type="text" id="apellido" name="apellido" placeholder="Ingresa tu Apellido completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo">Correo Electrónico:</label>
+                            <input type="email" id="correo" name="correo" placeholder="ejemplo@dominio.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dni">DNI:</label>
+                            <input type="text" id="dni" name="dni" placeholder="Ingresa su Número de DNI" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuenta">Número de Cuenta:</label>
+                            <input type="text" id="cuenta" name="cuenta" placeholder="Ingresa su número de cuenta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="monto">Monto de Préstamo:</label>
+                            <input type="number" id="monto" name="monto" placeholder="Ingresa su monto deseado" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="motivo">Motivo:</label>
+                            <textarea id="motivo" name="motivo" placeholder="Escriba tu mensaje aquí..." rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="send-button">Enviar</button>
+                    </form>
+                </section>
+            </div>
+
+            <div id="integrantes" class="page">
+                <header class="page-title">Nuestro Equipo</header>
+                <section class="members-section">
+                    <div class="member-card">
+                        <div class="member-image-placeholder">
+                            <img src="https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/491877586_1745113359752410_4265944702054474374_n.jpg?ccb=11-4&oh=01_Q5Aa1gEbFTt32Ewc8jjl1RsS_M7H5AMmqvS9HuBXF7v6oHzIYQ&oe=6844C9A7&_nc_sid=5e03e0&_nc_cat=101" alt="Foto del integrante 1">
+                        </div>
+                        <div class="member-text">Yuliana Herrera Espinoza</div>
+                        <div class="member-text">Desarrolladora Principal</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-image-placeholder">
+                            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/438255486_3704118169846417_686580657732146126_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGlxHssY2cuoaY8gTX4jXfpupgHBAezulu6mAcEB7O6W966_cQlxXOLAggAy6UzDcdxptfv-QAQ-OIo_hjN_BSx&_nc_ohc=yLsdDu6nUOsQ7kNvwGpw9_n&_nc_oc=AdnfIYJ7GM-b6-YVgtGoM3K2nbFZV2quhSCq9S7Vkm5W2e3qqcuoVs71whc8TBDfl7k&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=RPwEyAFLJUgGToFw6ROGcg&oh=00_AfKnO6BSVOUn8kyOEAAn_oTxZMx_ENLHx8Z9eEtzJGbMyQ&oe=683D8A60" alt="Foto del integrante 2">
+                        </div>
+                        <div class="member-text">Luis Haurcaya Vigo</div>
+                        <div class="member-text">Diseñador UX/UI</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-image-placeholder">
+                            <img src="https://picsum.photos/200/200?random=4" alt="Foto del integrante 3">
+                        </div>
+                        <div class="member-text">Rodrigo Castillo Campero</div>
+                        <div class="member-text">Analista Financiero</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-image-placeholder">
+                            <img src="https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/481084849_1673091246901342_8377504348479321958_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=106&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeF6CC8NKz4VDquf-KIJ6rprSeN_-uSKQZtJ43_65IpBmzX221rVr8QymYnav5Sfh-mt8gFwu2fF9f25-Q8HUxah&_nc_ohc=r0HnfEV-aQcQ7kNvwHK8ROg&_nc_oc=AdmpQKLtQOkaT8EZcerSLmD6p3-88fngRp97geSwxbzn_Fau36M6YY6vrfRoDAkZuNQ&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=4N-FFgSAP9fBsXFWhRvZkg&oh=00_AfLN83XP9jWLCN4oLx9lsbU6HrT_m5NSEfDkvh7sAY1uOw&oe=683D7222" alt="Foto del integrante 4">
+                        </div>
+                        <div class="member-text">Yamir Baique Zapata</div>
+                        <div class="member-text">Especialista en Marketing</div>
+                    </div>
+                </section>
+            </div>
+        </main>
     </div>
-    </body>
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('inicio');
+        });
+    </script>
+</body>
 </html>
